@@ -1,4 +1,4 @@
-import sepNivPregunta from "../models/SepNivPregunta.model.js";
+import sepNivPregunta from "../models/sepNivPregunta.model";
 
 // export const createSepNivPregunta = async (req, res) => {
 //   const { user } = req;

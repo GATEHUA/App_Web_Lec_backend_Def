@@ -18,9 +18,9 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
 const app = express();
-// const dirActual = fileURLToPath(import.meta.url);
-// export const dirFront = path.join(dirActual, "../../dist");
-// console.log(dirFront);
+const dirActual = fileURLToPath(import.meta.url);
+export const dirFront = path.join(dirActual, "../../dist");
+// export const dirFront = path.join(dirActual, "../../../frontend/dist");
 app.use(
   cors({
     credentials: true,
@@ -30,8 +30,8 @@ app.use(
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
+app.use(express.static(dirFront));
 app.use("/public", express.static(UPLOADS_FOLDER));
-
 app.use("/api/auth/", authRoutes);
 app.use("/api", usuarioRoutes);
 app.use("/api", lecturaRoutes);
@@ -41,19 +41,7 @@ app.use("/api", preguntaRoutes);
 app.use("/api", alternativaRoutes);
 app.use("/api", respuesRoutes);
 app.use("/api", sepNivPreguntasRoutes);
-// app.use("/", express.static(dirFront));
-// app.get("/*", function (req, res) {
-//   res.sendFile(path.join(path.join(dirFront, "index.html")));
-// });
-// console.log(dirFront);
-// app.use(express.static(dirFront));
-// app.get("/*", function (req, res) {
-//   res.sendFile(path.join(path.join(dirFront, "index.html")));
-// });
-// app.use(express.static(path.join(__dirname, "build")));
-
-// app.get("/*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
-
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(dirFront, "index.html"));
+});
 export default app;
