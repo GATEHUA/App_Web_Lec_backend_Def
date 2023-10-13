@@ -16,6 +16,10 @@ const storage = multer.diskStorage({
       cb(null, path.join(UPLOADS_FOLDER, "lectura/leeOral"));
     } else if (file.fieldname === "explicaOral") {
       cb(null, path.join(UPLOADS_FOLDER, "lectura/explicaOral"));
+    } else if (file.fieldname === "audio") {
+      cb(null, path.join(UPLOADS_FOLDER, "lectura/audio"));
+    } else if (file.fieldname === "archivo") {
+      cb(null, path.join(UPLOADS_FOLDER, "lectura/archivo"));
     } else {
       cb(null, path.join(UPLOADS_FOLDER));
     }

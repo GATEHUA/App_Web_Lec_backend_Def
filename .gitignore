@@ -7,11 +7,15 @@ src/uploads/lectura/contenido/*
 src/uploads/lectura/portada/*
 src/uploads/lectura/leeOral/*
 src/uploads/lectura/explicaOral/*
+src/uploads/lectura/audio/*
+src/uploads/lectura/archivo/*
 src/uploads/usuario/foto/*
 !src/uploads/lectura/contenido/.gitkeep
 !src/uploads/lectura/portada/.gitkeep
 !src/uploads/usuario/foto/.gitkeep
 !src/uploads/lectura/leeOral/.gitkeep
 !src/uploads/lectura/explicaOral/.gitkeep
+!src/uploads/lectura/audio/gitkeep
+!src/uploads/lectura/archivo/gitkeep
 
 # !.gitkeep

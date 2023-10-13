@@ -9,6 +9,8 @@ import partParrafoRoutes from "./routes/partParrafo.routes.js";
 import respuesRoutes from "./routes/respuesta.routes.js";
 import alternativaRoutes from "./routes/alternativa.routes.js";
 import sepNivPreguntasRoutes from "./routes/sepNivPregunta.routes.js";
+import productFinalRoutes from "./routes/productFinal.routes.js";
+
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -41,6 +43,8 @@ app.use("/api", preguntaRoutes);
 app.use("/api", alternativaRoutes);
 app.use("/api", respuesRoutes);
 app.use("/api", sepNivPreguntasRoutes);
+app.use("/api", productFinalRoutes);
+
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(dirFront, "index.html"));
 });
