@@ -17,9 +17,9 @@ src/uploads/usuario/resumenOral/*
 !src/uploads/usuario/foto/.gitkeep
 !src/uploads/lectura/leeOral/.gitkeep
 !src/uploads/lectura/explicaOral/.gitkeep
-!src/uploads/lectura/audio/gitkeep
-!src/uploads/lectura/archivo/gitkeep
-!src/uploads/usuario/fraseOral/gitkeep
-!src/uploads/usuario/resumenOral/gitkeep
+!src/uploads/lectura/audio/.gitkeep
+!src/uploads/lectura/archivo/.gitkeep
+!src/uploads/usuario/fraseOral/.gitkeep
+!src/uploads/usuario/resumenOral/.gitkeep
 
 # !.gitkeep
