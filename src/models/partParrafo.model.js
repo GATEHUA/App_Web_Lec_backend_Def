@@ -4,6 +4,8 @@ const partParrafoSchema = new mongoose.Schema(
   {
     leeOral: { type: String, required: true },
     explicaOral: { type: String, required: true },
+    resumenOral: { type: String, required: true },
+    fraseOral: { type: String, required: true },
     resumenEscrito: { type: String, required: true },
     frase: { type: String, required: true },
     refParrafo: {

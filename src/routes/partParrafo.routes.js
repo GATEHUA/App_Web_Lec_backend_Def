@@ -11,7 +11,12 @@ const router = Router();
 router.post(
   "/partParrafo",
   authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
-  upload.fields([{ name: "leeOral" }, { name: "explicaOral" }]),
+  upload.fields([
+    { name: "resumenOral" },
+    { name: "fraseOral" },
+    { name: "leeOral" },
+    { name: "explicaOral" },
+  ]),
   createPartParrafo
 );
 router.get(

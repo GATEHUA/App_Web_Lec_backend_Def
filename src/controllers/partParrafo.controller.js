@@ -14,9 +14,15 @@ export const createPartParrafo = async (req, res) => {
 
   const leeOralFile = req.files["leeOral"];
   const explicaOralFile = req.files["explicaOral"];
+  const resumenOralFile = req.files["resumenOral"];
+  const fraseOralFile = req.files["fraseOral"];
   let leeOral = leeOralFile && leeOralFile[0] ? leeOralFile[0].filename : null;
   let explicaOral =
     explicaOralFile && explicaOralFile[0] ? explicaOralFile[0].filename : null;
+  let resumenOral =
+    resumenOralFile && resumenOralFile[0] ? resumenOralFile[0].filename : null;
+  let fraseOral =
+    fraseOralFile && fraseOralFile[0] ? fraseOralFile[0].filename : null;
 
   // if (!req.files["leeOral"] || !req.files["leeOral"][0]) {
   //   if (explicaOral) {
@@ -67,6 +73,8 @@ export const createPartParrafo = async (req, res) => {
       resumenEscrito,
       frase,
       leeOral,
+      resumenOral,
+      fraseOral,
       explicaOral,
     });
     await newPartParrafo.save();

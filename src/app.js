@@ -21,8 +21,8 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 const dirActual = fileURLToPath(import.meta.url);
-export const dirFront = path.join(dirActual, "../../dist");
-// export const dirFront = path.join(dirActual, "../../../frontend/dist");
+// export const dirFront = path.join(dirActual, "../../dist");
+export const dirFront = path.join(dirActual, "../../../frontend/dist");
 app.use(
   cors({
     credentials: true,
@@ -32,7 +32,6 @@ app.use(
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use(express.static(dirFront));
 app.use("/public", express.static(UPLOADS_FOLDER));
 app.use("/api/auth/", authRoutes);
 app.use("/api", usuarioRoutes);
@@ -44,8 +43,9 @@ app.use("/api", alternativaRoutes);
 app.use("/api", respuesRoutes);
 app.use("/api", sepNivPreguntasRoutes);
 app.use("/api", productFinalRoutes);
-
+app.use(express.static(dirFront));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(dirFront, "index.html"));
 });
+
 export default app;

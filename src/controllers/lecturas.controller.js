@@ -101,6 +101,10 @@ export const createLectura = async (req, res) => {
     return res.status(400).json(["El campo contenido es obligatario"]);
   }
   contenido = req.file.filename;
+
+  console.log("contenido");
+  console.log(req.file);
+
   const {
     titulo,
     grado,
