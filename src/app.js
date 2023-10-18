@@ -23,12 +23,12 @@ const app = express();
 const dirActual = fileURLToPath(import.meta.url);
 export const dirFront = path.join(dirActual, "../../dist");
 // export const dirFront = path.join(dirActual, "../../../frontend/dist");
-app.use(
-  cors({
-    credentials: true,
-    origin: FRONT_URL,
-  })
-);
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: FRONT_URL,
+//   })
+// );
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
