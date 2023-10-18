@@ -21,8 +21,8 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 const dirActual = fileURLToPath(import.meta.url);
-// export const dirFront = path.join(dirActual, "../../dist");
-export const dirFront = path.join(dirActual, "../../../frontend/dist");
+export const dirFront = path.join(dirActual, "../../dist");
+// export const dirFront = path.join(dirActual, "../../../frontend/dist");
 app.use(
   cors({
     credentials: true,
