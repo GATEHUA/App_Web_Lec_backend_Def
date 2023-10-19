@@ -76,10 +76,11 @@ export const createUsuario = async (req, res) => {
     rol,
     contrasenia,
     puntajeTotal,
+    dni,
     estaVerificado = false,
   } = req.body;
-  let { dni } = req.body;
-  dni = parseInt(dni, 10);
+  // let { dni } = req.body;
+  // dni = parseInt(dni, 10);
 
   try {
     const userFound = await Usuario.findOne({
@@ -147,12 +148,11 @@ export const updateUsuario = async (req, res) => {
     correo,
     rol,
     contrasenia,
+    dni,
     estaVerificado = false,
   } = req.body;
-  let { dni, deleteFotoPerfil = false } = req.body;
-  if (dni) {
-    dni = parseInt(dni, 10);
-  }
+  let { deleteFotoPerfil = false } = req.body;
+
   if (deleteFotoPerfil) {
     deleteFotoPerfil = JSON.parse(deleteFotoPerfil);
   }

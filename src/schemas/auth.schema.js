@@ -44,13 +44,19 @@ export const registerSchema = z.object({
     .transform((date) => new Date(date)),
   // .nullable()
   // .refine((date) => !!date, { message: "Requerido" }), // Al final
+  // dni: z
+  //   .number({
+  //     invalid_type_error: "Campo requerido",
+  //     required_error: "Campo requerido",
+  //   })
+  //   .positive("El campo no puede tener numeros negativos")
+  //   .gte(10000000, { message: "Debe tener como minimo 8 caracters" }),
   dni: z
-    .number({
+    .string({
       invalid_type_error: "Campo requerido",
       required_error: "Campo requerido",
     })
-    .positive("El campo no puede tener numeros negativos")
-    .gte(10000000, { message: "Debe tener como minimo 8 caracters" }),
+    .length(8, { message: "Debe tener como mínimo 8 digitos" }),
   numeroTelefonicoPersonal: z
     .number({
       invalid_type_error: "Campo requerido",

@@ -26,10 +26,15 @@ const usuarioSchema = new mongoose.Schema(
       type: Date,
     },
     dni: {
-      type: Number,
+      type: String,
       unique: true,
       trim: true,
     },
+    // dni: {
+    //   type: Number,
+    //   unique: true,
+    //   trim: true,
+    // },
     numeroTelefonicoPersonal: {
       type: Number,
       trim: true,
