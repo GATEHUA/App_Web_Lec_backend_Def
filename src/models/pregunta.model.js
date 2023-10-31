@@ -38,7 +38,7 @@ const preguntaSchema = new mongoose.Schema(
     },
     puntajepregunta: {
       type: Number,
-      default: 10,
+      default: 5,
     },
     disabled: {
       type: String,

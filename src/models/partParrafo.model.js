@@ -19,8 +19,8 @@ const partParrafoSchema = new mongoose.Schema(
       required: true,
     },
     puntos: {
-      type: Number, // Aquí almacenarás el token o código único
-      default: 10, // Puedes establecer esto como nulo inicialmente
+      type: Number,
+      default: 2,
     },
   },
   { timestamps: true }

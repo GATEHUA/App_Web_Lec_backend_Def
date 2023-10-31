@@ -69,6 +69,18 @@ const usuarioSchema = new mongoose.Schema(
       type: Boolean,
       default: false, // Inicialmente, el usuario no está verificado
     },
+    nivel: {
+      type: String,
+      default: "No definido",
+    },
+    grado: {
+      type: String,
+      default: "No definido",
+    },
+    seccion: {
+      type: String,
+      default: "No definido",
+    },
     codigoVerificacion: {
       type: String, // Aquí almacenarás el token o código único
       default: null, // Puedes establecer esto como nulo inicialmente

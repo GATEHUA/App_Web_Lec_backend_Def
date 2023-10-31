@@ -10,6 +10,7 @@ import respuesRoutes from "./routes/respuesta.routes.js";
 import alternativaRoutes from "./routes/alternativa.routes.js";
 import sepNivPreguntasRoutes from "./routes/sepNivPregunta.routes.js";
 import productFinalRoutes from "./routes/productFinal.routes.js";
+import statusRoutes from "./routes/status.routes.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -43,6 +44,8 @@ app.use("/api", alternativaRoutes);
 app.use("/api", respuesRoutes);
 app.use("/api", sepNivPreguntasRoutes);
 app.use("/api", productFinalRoutes);
+app.use("/api", statusRoutes);
+
 app.use(express.static(dirFront));
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(dirFront, "index.html"));

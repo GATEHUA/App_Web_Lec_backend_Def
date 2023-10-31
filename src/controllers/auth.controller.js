@@ -19,6 +19,9 @@ export const register = async (req, res) => {
       dni,
       numeroTelefonicoPersonal,
       generoSexo,
+      nivel,
+      grado,
+      seccion,
     } = req.body;
     console.log("desde register");
     console.log(req.body);
@@ -56,6 +59,9 @@ export const register = async (req, res) => {
       fechaNacimiento,
       dni,
       generoSexo,
+      nivel,
+      grado,
+      seccion,
     });
     const usuarioSaved = await newUsuario.save();
     const token = await createAccessToken({ id: usuarioSaved._id });
@@ -70,7 +76,8 @@ export const register = async (req, res) => {
 
     const userJson = usuarioSaved.toObject();
     userJson["SendEmail"] = resultEmail;
-    res.json(userJson);
+    const { codigoVerificacion, ...rest } = userJson;
+    res.json(rest);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -166,6 +173,7 @@ export const login = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
 export const recoverPassword = async (req, res) => {
   const { correo } = req.params;
   const { codigoVerificacion, rememberAccount = false } = req.body;
@@ -185,6 +193,7 @@ export const recoverPassword = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
 export const recoverPasswordSend = async (req, res) => {
   const { correo } = req.body;
   try {
@@ -239,7 +248,8 @@ export const profile = async (req, res) => {
       return res.status(400).json(["Usuario no encontrado"]);
     }
 
-    return res.json(userdb);
+    const { codigoVerificacion, ...rest } = userdb.toObject();
+    return res.json(rest);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

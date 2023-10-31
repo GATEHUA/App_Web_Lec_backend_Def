@@ -2,9 +2,12 @@ import { Router } from "express";
 import { authAndAuthorize } from "../middlewares/authAndAuthorize.middleware.js";
 import {
   createRespuesta,
+  deleteRespuesta,
   getRespuesta,
   getRespuestas,
   getRespuestasChallengue,
+  updateRespuesta,
+  // getRespuestasXReading
 } from "../controllers/respuesta.controller.js";
 
 const router = Router();
@@ -29,5 +32,20 @@ router.get(
   authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
   getRespuestasChallengue
 );
+router.put(
+  "/respuesta/:id",
+  authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
+  updateRespuesta
+);
+router.delete(
+  "/respuesta/:id",
+  authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
+  deleteRespuesta
+);
+// router.get(
+//   "/respuestaschallengue",
+//   authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
+//   getRespuestasXReading
+// );
 
 export default router;

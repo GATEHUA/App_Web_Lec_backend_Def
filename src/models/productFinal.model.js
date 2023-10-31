@@ -17,7 +17,7 @@ const productFinalSchema = new mongoose.Schema(
     },
     puntos: {
       type: Number, // Aquí almacenarás el token o código único
-      default: 10, // Puedes establecer esto como nulo inicialmente
+      default: 25, // Puedes establecer esto como nulo inicialmente
     },
   },
   { timestamps: true }

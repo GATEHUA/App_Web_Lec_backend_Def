@@ -1,7 +1,7 @@
 import PartParrafo from "../models/partParrafo.model.js";
-// import eliminarArchivo from "../libs/deleteFile.js";
-// import { UPLOADS_FOLDER } from "../libs/rutaUpload.js";
-// import path from "path";
+import eliminarArchivo from "../libs/deleteFile.js";
+import { UPLOADS_FOLDER } from "../libs/rutaUpload.js";
+import path from "path";
 
 export const createPartParrafo = async (req, res) => {
   const { user } = req;
@@ -95,6 +95,67 @@ export const getPartParrafo = async (req, res) => {
       return res.sendStatus(404);
     }
     res.status(200).json(partParrafo[0]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updatePartParrafo = async (req, res) => {
+  try {
+    const partParrafo = await PartParrafo.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!partParrafo) {
+      return res
+        .status(404)
+        .json({ message: "Respuesta no encontrada para actualizar" });
+    }
+    res.status(200).json(partParrafo);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deletePartParrafo = async (req, res) => {
+  try {
+    const partParrafo = await PartParrafo.findById(req.params.id);
+    if (!partParrafo) {
+      return res
+        .status(404)
+        .json({ message: "Parrafo no encontrado para eliminar" });
+    }
+    if (partParrafo.leeOral) {
+      await eliminarArchivo(
+        path.join(UPLOADS_FOLDER, "/lectura/leeOral", partParrafo.leeOral)
+      );
+    }
+    if (partParrafo.explicaOral) {
+      await eliminarArchivo(
+        path.join(
+          UPLOADS_FOLDER,
+          "/lectura/explicaOral",
+          partParrafo.explicaOral
+        )
+      );
+    }
+    if (partParrafo.resumenOral) {
+      await eliminarArchivo(
+        path.join(
+          UPLOADS_FOLDER,
+          "/lectura/resumenOral",
+          partParrafo.resumenOral
+        )
+      );
+    }
+    if (partParrafo.fraseOral) {
+      await eliminarArchivo(
+        path.join(UPLOADS_FOLDER, "/lectura/fraseOral", partParrafo.fraseOral)
+      );
+    }
+    await partParrafo.deleteOne();
+    return res.sendStatus(204);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

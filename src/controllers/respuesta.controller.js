@@ -82,6 +82,22 @@ export const getRespuestasChallengue = async (req, res) => {
   }
 };
 
+export const getRespuestasXReading = async (req, res) => {
+  const { user } = req;
+  const { idLectura } = req.query;
+
+  try {
+    const respuestas = await Respuesta.find({ refUsuario: user._id }).populate({
+      path: "refPregunta",
+      match: { refLectura: idLectura },
+      "refUsuario.rol": { $ne: "Usuario" },
+    });
+    res.status(200).json(respuestas);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // export const getRespuestas = async (req, res) => {
 //   const { user } = req;
 //   const { idLectura } = req.query;
@@ -132,6 +148,38 @@ export const getRespuesta = async (req, res) => {
       return res.sendStatus(404);
     }
     res.status(200).json(respuesta[0]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateRespuesta = async (req, res) => {
+  try {
+    const respuesta = await Respuesta.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!respuesta) {
+      return res
+        .status(404)
+        .json({ message: "Respuesta no encontrada para actualizar" });
+    }
+    res.status(200).json(respuesta);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteRespuesta = async (req, res) => {
+  try {
+    const respuesta = await Respuesta.findByIdAndDelete(req.params.id);
+    if (!respuesta) {
+      return res
+        .status(404)
+        .json({ message: "Pregunta no encontrada para eliminar" });
+    }
+    return res.sendStatus(204);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

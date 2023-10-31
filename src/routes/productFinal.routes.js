@@ -4,7 +4,9 @@ import { authAndAuthorize } from "../middlewares/authAndAuthorize.middleware.js"
 
 import {
   createProductFinal,
+  deleteProductoFinalQuery,
   getProductFinal,
+  updateProductoFinalPuntosQuery,
 } from "../controllers/productFinal.controller.js";
 const router = Router();
 
@@ -18,6 +20,16 @@ router.get(
   "/productoFinal",
   authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
   getProductFinal
+);
+router.put(
+  "/productoFinal/:id",
+  authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
+  updateProductoFinalPuntosQuery
+);
+router.delete(
+  "/productoFinal/:id",
+  authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
+  deleteProductoFinalQuery
 );
 
 export default router;
