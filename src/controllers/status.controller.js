@@ -6,6 +6,7 @@ import sepNivPregunta from "../models/sepNivPregunta.model.js";
 import Lectura from "../models/lectura.model.js";
 import ProductFinal from "../models/productFinal.model.js";
 import LecturaCompletaAl from "../models/lecturacompletal.model.js";
+import Observacion from "../models/obeservacions.js";
 
 export const getStatus = async (req, res) => {
   const { user } = req;
@@ -14,7 +15,7 @@ export const getStatus = async (req, res) => {
     const lecturacompletal = await LecturaCompletaAl.find({
       refLectura,
       refUsuario: user._id,
-    });
+    }).populate("refObservaciones");
     const lectura = await Lectura.findById(refLectura);
     const mispreguntas = await Pregunta.find({
       refLectura,
@@ -164,6 +165,7 @@ export const getStatusAllmyLecs = async (req, res) => {
     const mislecturas = await Lectura.find({ refUsuario: user._id });
 
     const idsMyLecturas = mislecturas.map((e) => e._id.toJSON());
+    console.log("idsMyLecturas");
 
     console.log(idsMyLecturas);
 
@@ -225,6 +227,9 @@ export const deleteStatus = async (req, res) => {
         .status(404)
         .json({ message: "Estado de lectura no encontrado para eliminar" });
     }
+    const observacionesIds = status.refObservaciones;
+    await Observacion.deleteMany({ _id: { $in: observacionesIds } });
+    await status.deleteOne();
     return res.sendStatus(204);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -350,7 +355,7 @@ export const getLecturaCompStatQuery = async (req, res) => {
     const lecturacompletal = await LecturaCompletaAl.findOne({
       refLectura,
       refUsuario: user._id,
-    });
+    }).populate("refObservaciones");
     res.status(200).json(lecturacompletal);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -366,7 +371,7 @@ export const getStatusQuery = async (req, res) => {
     const lecturacompletal = await LecturaCompletaAl.find({
       refLectura,
       refUsuario: user._id,
-    });
+    }).populate("refObservaciones");
     const lectura = await Lectura.findById(refLectura);
     const mispreguntas = await Pregunta.find({
       refLectura,

@@ -14,6 +14,7 @@ import {
   getYouPreguntasQuery,
   getProductoFinalQuery,
   getLecturaCompStatQuery,
+  updateStatus,
 } from "../controllers/status.controller.js";
 const router = Router();
 router.get(
@@ -86,6 +87,12 @@ router.get(
   "/statuslectcompqu",
   authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
   getLecturaCompStatQuery
+);
+
+router.put(
+  "/status/:id",
+  authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
+  updateStatus
 );
 
 export default router;

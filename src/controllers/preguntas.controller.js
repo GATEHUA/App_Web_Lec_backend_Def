@@ -155,12 +155,21 @@ export const getMyPreguntasChallengueUser = async (req, res) => {
     const preguntas = await Pregunta.find({ refLectura, refUsuario })
       .sort({ orden: 1 })
       .populate("refAlternativas");
-    const filteredPreguntas = preguntas.filter(
-      (pregunta) => pregunta.estadoAceptacion === "No"
-    );
-    console.log("qweqwe");
 
-    res.status(200).json(filteredPreguntas);
+    const todasAceptadas = preguntas.every(
+      (pregunta) => pregunta.estadoAceptacion === "Si"
+    );
+
+    if (todasAceptadas) {
+      res.status(200).json(preguntas);
+    } else {
+      res.status(200).json([]);
+    }
+    // const filteredPreguntas = preguntas.filter(
+    //   (pregunta) => pregunta.estadoAceptacion === "Si"
+    // );
+
+    // res.status(200).json(filteredPreguntas);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

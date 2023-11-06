@@ -18,6 +18,12 @@ const lecturaCompletaAlSchema = new mongoose.Schema(
       ref: "Usuario",
       required: true,
     },
+    refObservaciones: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Observacion",
+      },
+    ],
   },
   { timestamps: true }
 );
