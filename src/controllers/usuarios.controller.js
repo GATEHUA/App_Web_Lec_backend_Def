@@ -204,6 +204,9 @@ export const createUsuario = async (req, res) => {
     puntajeTotal,
     dni,
     estaVerificado = false,
+    nivel,
+    grado,
+    seccion,
   } = req.body;
   // let { dni } = req.body;
   // dni = parseInt(dni, 10);
@@ -246,6 +249,9 @@ export const createUsuario = async (req, res) => {
       puntajeTotal,
       estaVerificado,
       codigoVerificacion,
+      nivel,
+      grado,
+      seccion,
       fotoPerfil,
     });
     // console.log(newUsuario);
@@ -276,6 +282,9 @@ export const updateUsuario = async (req, res) => {
     contrasenia,
     dni,
     estaVerificado = false,
+    nivel,
+    grado,
+    seccion,
   } = req.body;
   let { deleteFotoPerfil = false } = req.body;
 
@@ -312,6 +321,9 @@ export const updateUsuario = async (req, res) => {
     usuario.apellidoMaterno = apellidoMaterno;
     usuario.nombres = nombres;
     usuario.fechaNacimiento = fechaNacimiento;
+    usuario.nivel = nivel;
+    usuario.grado = grado;
+    usuario.seccion = seccion;
     if (dni) {
       usuario.dni = dni;
     }

@@ -27,7 +27,12 @@ router.post(
   upload.single("fotoPerfil"),
   createUsuario
 );
-router.put("/usuario/:id", upload.single("fotoPerfil"), updateUsuario);
+router.put(
+  "/usuario/:id",
+  authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
+  upload.single("fotoPerfil"),
+  updateUsuario
+);
 router.put(
   "/usuarioputpoints/:id",
   authAndAuthorize(["Usuario", "Profesor", "Administrador"]),
