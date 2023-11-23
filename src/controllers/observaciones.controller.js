@@ -12,8 +12,8 @@ export const createObservacion = async (req, res) => {
       });
     }
     const observacion = await Observacion.create(req.body);
-    LecturaCompletaAl.refObservaciones.push(observacion);
-    await LecturaCompletaAl.save();
+    statusL.refObservaciones.push(observacion);
+    await statusL.save();
     res.sendStatus(201);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -60,8 +60,8 @@ export const deleteObservacion = async (req, res) => {
         .status(404)
         .json({ message: "Observacion no encontrado para eliminar" });
     }
-    LecturaCompletaAl.refObservaciones.pull(alternativa._id);
-    await LecturaCompletaAl.save();
+    statusL.refObservaciones.pull(observacion._id);
+    await statusL.save();
     return res.sendStatus(204);
   } catch (error) {
     res.status(500).json({ message: error.message });

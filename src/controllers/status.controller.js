@@ -155,44 +155,100 @@ export const getStatusAll = async (req, res) => {
   }
 };
 
+// export const getStatusAllmyLecs = async (req, res) => {
+//   const { user } = req;
+//   try {
+//     const status = await LecturaCompletaAl.find({}).populate([
+//       { path: "refUsuario" },
+//       { path: "refLectura" },
+//     ]);
+//     const mislecturas = await Lectura.find({ refUsuario: user._id });
+
+//     const idsMyLecturas = mislecturas.map((e) => e._id.toJSON());
+//     console.log("idsMyLecturas");
+
+//     console.log(idsMyLecturas);
+
+//     let data = [];
+
+//     status.map((e) => {
+//       const existData = data.find(
+//         (x) => x.refUsuario?._id === e.refUsuario._id
+//       );
+//       console.log("bucle");
+
+//       console.log(e.refLectura._id.toJSON());
+//       let lect;
+//       if (idsMyLecturas.includes(e.refLectura._id.toJSON())) {
+//         lect = e.refLectura;
+//       }
+//       if (existData) {
+//         existData.refLecturas.push(lect);
+//       } else {
+//         data.push({
+//           refUsuario: e.refUsuario,
+//           estado: e.estado,
+//           porcentaje: e.porcentaje,
+//           refLecturas: [lect],
+//         });
+//       }
+//     });
+//     res.status(200).json(data);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
 export const getStatusAllmyLecs = async (req, res) => {
   const { user } = req;
   try {
-    const status = await LecturaCompletaAl.find({}).populate([
+    // Obtener todas las lecturas que creó el usuario
+    const mislecturas = await Lectura.find({ refUsuario: user._id });
+
+    // Obtener los IDs de las lecturas del usuario
+    const idsMyLecturas = mislecturas.map((e) => e._id.toJSON());
+
+    // Obtener todos los status, independientemente del usuario
+    const allStatus = await LecturaCompletaAl.find({}).populate([
       { path: "refUsuario" },
       { path: "refLectura" },
     ]);
-    const mislecturas = await Lectura.find({ refUsuario: user._id });
 
-    const idsMyLecturas = mislecturas.map((e) => e._id.toJSON());
-    console.log("idsMyLecturas");
+    // Filtrar los status para incluir solo las lecturas del usuario
+    const data = allStatus.reduce((result, e) => {
+      if (idsMyLecturas.includes(e.refLectura._id.toString())) {
+        const existData = result.find((x) =>
+          x.refUsuario?._id.equals(e.refUsuario._id)
+        );
 
-    console.log(idsMyLecturas);
+        let lect;
+        if (e.refLectura) {
+          lect = {
+            titulo: e.refLectura.titulo,
+            _id: e.refLectura._id,
+            idS: e._id,
+            nivelDificultad: e.refLectura.nivelDificultad,
+            estado: e.estado,
+            porcentaje: e.porcentaje,
+          };
+        }
 
-    let data = [];
-
-    status.map((e) => {
-      const existData = data.find(
-        (x) => x.refUsuario?._id === e.refUsuario._id
-      );
-      console.log("bucle");
-
-      console.log(e.refLectura._id.toJSON());
-      let lect;
-      if (idsMyLecturas.includes(e.refLectura._id.toJSON())) {
-        lect = e.refLectura;
+        if (lect) {
+          if (existData) {
+            existData.refLecturas.push(lect);
+          } else {
+            result.push({
+              refUsuario: e.refUsuario,
+              estado: e.estado,
+              porcentaje: e.porcentaje,
+              refLecturas: [lect],
+            });
+          }
+        }
       }
-      if (existData) {
-        existData.refLecturas.push(lect);
-      } else {
-        data.push({
-          refUsuario: e.refUsuario,
-          estado: e.estado,
-          porcentaje: e.porcentaje,
-          refLecturas: [lect],
-        });
-      }
-    });
+      return result;
+    }, []);
+
     res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
