@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 const productFinalSchema = new mongoose.Schema(
   {
     texto: { type: String },
+    textoEnri: {
+      type: String,
+    },
     audio: { type: String },
     archivo: { type: String },
     refLectura: {

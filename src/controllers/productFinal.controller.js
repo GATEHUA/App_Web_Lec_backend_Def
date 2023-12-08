@@ -6,7 +6,7 @@ import { UPLOADS_FOLDER } from "../libs/rutaUpload.js";
 export const createProductFinal = async (req, res) => {
   const { user } = req;
   const { refLectura } = req.query;
-  const { texto } = req.body;
+  const { texto, textoEnri } = req.body;
   const audioFile = req.files["audio"];
   const archivoFile = req.files["archivo"];
   let audio = audioFile && audioFile[0] ? audioFile[0].filename : null;
@@ -33,6 +33,7 @@ export const createProductFinal = async (req, res) => {
       archivo,
       audio,
       texto,
+      textoEnri,
       refLectura,
       refUsuario: user._id,
     });
