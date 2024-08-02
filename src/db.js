@@ -8,7 +8,8 @@ export const connectDB = async () => {
         username: USER_DB,
         password: PASSWORD_DB,
       },
-      // authSource: "admin", ->Comentado para produccion...
+      //  ->Comentado para produccion...
+      // authSource: "admin",
     });
     console.log(">> DB is connected");
   } catch (error) {

@@ -112,49 +112,102 @@ export const createStatus = async (req, res) => {
   }
 };
 
+// export const getStatusAll = async (req, res) => {
+//   try {
+//     const status = await LecturaCompletaAl.find({}).populate([
+//       { path: "refUsuario" },
+//       { path: "refLectura" },
+//     ]);
+//     let data = [];
+//     status.map((e) => {
+//       const existData = data.find(
+//         (x) => x.refUsuario?._id === e.refUsuario._id
+//       );
+//       if (existData) {
+//         existData.refLecturas.push({
+//           // ...e.refLectura,
+//           titulo: e.refLectura.titulo,
+//           _id: e.refLectura._id,
+//           idS: e._id,
+//           nivelDificultad: e.refLectura.nivelDificultad,
+//           estado: e.estado,
+//           porcentaje: e.porcentaje,
+//         });
+//       } else {
+//         data.push({
+//           refUsuario: e.refUsuario,
+//           refLecturas: [
+//             {
+//               titulo: e.refLectura.titulo,
+//               _id: e.refLectura._id,
+//               idS: e._id,
+//               nivelDificultad: e.refLectura.nivelDificultad,
+//               estado: e.estado,
+//               porcentaje: e.porcentaje,
+//             },
+//           ],
+//         });
+//       }
+//     });
+//     res.status(200).json(data);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 export const getStatusAll = async (req, res) => {
   try {
     const status = await LecturaCompletaAl.find({}).populate([
       { path: "refUsuario" },
       { path: "refLectura" },
     ]);
+
     let data = [];
+
     status.map((e) => {
-      const existData = data.find(
-        (x) => x.refUsuario?._id === e.refUsuario._id
-      );
-      if (existData) {
-        existData.refLecturas.push({
-          // ...e.refLectura,
-          titulo: e.refLectura.titulo,
-          _id: e.refLectura._id,
-          idS: e._id,
-          nivelDificultad: e.refLectura.nivelDificultad,
-          estado: e.estado,
-          porcentaje: e.porcentaje,
-        });
+      // Verificar si e.refLectura no es null o undefined
+      if (e.refLectura) {
+        const existData = data.find(
+          (x) => x.refUsuario?._id === e.refUsuario._id
+        );
+        if (existData) {
+          existData.refLecturas.push({
+            titulo: e.refLectura.titulo,
+            _id: e.refLectura._id,
+            idS: e._id,
+            nivelDificultad: e.refLectura.nivelDificultad,
+            estado: e.estado,
+            porcentaje: e.porcentaje,
+          });
+        } else {
+          data.push({
+            refUsuario: e.refUsuario,
+            refLecturas: [
+              {
+                titulo: e.refLectura.titulo,
+                _id: e.refLectura._id,
+                idS: e._id,
+                nivelDificultad: e.refLectura.nivelDificultad,
+                estado: e.estado,
+                porcentaje: e.porcentaje,
+              },
+            ],
+          });
+        }
       } else {
-        data.push({
-          refUsuario: e.refUsuario,
-          refLecturas: [
-            {
-              titulo: e.refLectura.titulo,
-              _id: e.refLectura._id,
-              idS: e._id,
-              nivelDificultad: e.refLectura.nivelDificultad,
-              estado: e.estado,
-              porcentaje: e.porcentaje,
-            },
-          ],
-        });
+        // Manejar el caso cuando e.refLectura es null o undefined
+        console.warn(`La lectura con el ID ${e._id} no tiene refLectura.`);
       }
     });
+
     res.status(200).json(data);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
 
+// CODIGO mas antiguo
 // export const getStatusAllmyLecs = async (req, res) => {
 //   const { user } = req;
 //   try {
@@ -199,6 +252,64 @@ export const getStatusAll = async (req, res) => {
 //   }
 // };
 
+// CODIGO ANTIGUO SIN MANEJO DE NULLS EL MAS ANTIGUS ES ESO ...
+// export const getStatusAllmyLecs = async (req, res) => {
+//   const { user } = req;
+//   try {
+//     // Obtener todas las lecturas que creó el usuario
+//     const mislecturas = await Lectura.find({ refUsuario: user._id });
+
+//     // Obtener los IDs de las lecturas del usuario
+//     const idsMyLecturas = mislecturas.map((e) => e._id.toJSON());
+
+//     // Obtener todos los status, independientemente del usuario
+//     const allStatus = await LecturaCompletaAl.find({}).populate([
+//       { path: "refUsuario" },
+//       { path: "refLectura" },
+//     ]);
+
+//     // Filtrar los status para incluir solo las lecturas del usuario
+//     const data = allStatus.reduce((result, e) => {
+//       if (idsMyLecturas.includes(e.refLectura._id.toString())) {
+//         const existData = result.find((x) =>
+//           x.refUsuario?._id.equals(e.refUsuario._id)
+//         );
+
+//         let lect;
+//         if (e.refLectura) {
+//           lect = {
+//             titulo: e.refLectura.titulo,
+//             _id: e.refLectura._id,
+//             idS: e._id,
+//             nivelDificultad: e.refLectura.nivelDificultad,
+//             estado: e.estado,
+//             porcentaje: e.porcentaje,
+//           };
+//         }
+
+//         if (lect) {
+//           if (existData) {
+//             existData.refLecturas.push(lect);
+//           } else {
+//             result.push({
+//               refUsuario: e.refUsuario,
+//               estado: e.estado,
+//               porcentaje: e.porcentaje,
+//               refLecturas: [lect],
+//             });
+//           }
+//         }
+//       }
+//       return result;
+//     }, []);
+
+//     res.status(200).json(data);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
 export const getStatusAllmyLecs = async (req, res) => {
   const { user } = req;
   try {
@@ -216,7 +327,7 @@ export const getStatusAllmyLecs = async (req, res) => {
 
     // Filtrar los status para incluir solo las lecturas del usuario
     const data = allStatus.reduce((result, e) => {
-      if (idsMyLecturas.includes(e.refLectura._id.toString())) {
+      if (e.refLectura && idsMyLecturas.includes(e.refLectura._id.toString())) {
         const existData = result.find((x) =>
           x.refUsuario?._id.equals(e.refUsuario._id)
         );
@@ -251,6 +362,7 @@ export const getStatusAllmyLecs = async (req, res) => {
 
     res.status(200).json(data);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
