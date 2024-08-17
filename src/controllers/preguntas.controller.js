@@ -129,15 +129,22 @@ export const getMyPreguntas = async (req, res) => {
 //   }
 // };
 
+//?Comentado el 16/08/2024
 export const getMyPreguntasLec = async (req, res) => {
   const { refLectura } = req.query;
   try {
     const preguntas = await Pregunta.find({ refLectura })
       .sort({ orden: 1 })
       .populate([{ path: "refUsuario" }, { path: "refAlternativas" }]);
+    console.log(preguntas);
+    //*Agregafo el 16/08/2024
     const filteredPreguntas = preguntas.filter(
-      (pregunta) => pregunta.refUsuario.rol !== "Usuario"
+      (pregunta) => pregunta.refUsuario && pregunta.refUsuario.rol !== "Usuario"
     );
+    // const filteredPreguntas = preguntas.filter(
+    //   (pregunta) => pregunta.refUsuario.rol !== "Usuario"
+    // );
+
     const filteredData = filteredPreguntas.map((pregunta) => {
       const { refUsuario, ...rest } = pregunta.toObject(); // Copia todas las propiedades excepto refUsuario
       return rest;
@@ -145,6 +152,8 @@ export const getMyPreguntasLec = async (req, res) => {
     console.log(filteredData);
     res.status(200).json(filteredData);
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({ message: error.message });
   }
 };
