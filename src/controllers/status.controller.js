@@ -70,7 +70,7 @@ export const getStatus = async (req, res) => {
       .sort({ orden: 1 })
       .populate({ path: "refUsuario" });
     const filteredPreguntas = preguntas.filter(
-      (pregunta) => pregunta.refUsuario.rol !== "Usuario"
+      (pregunta) => pregunta.refUsuario && pregunta.refUsuario.rol !== "Usuario"
     );
     const filteredData = filteredPreguntas.map((pregunta) => {
       const { refUsuario, ...rest } = pregunta.toObject(); // Copia todas las propiedades excepto refUsuario
